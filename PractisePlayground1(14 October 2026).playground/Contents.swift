@@ -1243,3 +1243,149 @@ struct Customer {
 }
 let lottie = Customer(name: "Lottie Knights", creditCard: 1234567890)
 
+
+
+
+
+// Static Properties and methods
+// some method to struct itself // store constant data
+// Struct.staticproperty
+
+struct College {
+    var age: Int
+    @MainActor static var studentCount = 0
+    
+    @MainActor static func add(student: String) {
+        print("\(student) joined the school")
+        studentCount += 1
+    }
+}
+
+College.add(student: "Bob Kane")
+print(College.studentCount)
+
+// Self // Belongs to struct or class or enum itself
+// self // The current value of a struct
+// Static properties are used to acces common data across project - like UserSettings etc
+
+struct AppData {
+    static let version = "1.5 beta 3"
+    static let saveFilename = "settings.json"
+    static let homeURL = "https://www.google.com"
+}
+
+print(AppData.saveFilename)
+
+
+// Also used to store sample/example data for SwiftUI
+
+struct SampleEmployee {
+    let username: String
+    let password: String
+    
+    static let example = SampleEmployee(username: "Kerry", password: "1234567890")
+}
+
+print(SampleEmployee.example.username)
+print(SampleEmployee.example.password)
+
+
+
+
+
+struct Unwrap {
+    @MainActor static let appURL = "https://itunes.apple.com/app/id1440611372"
+}
+
+
+
+//static var entropy = Int.random(in: 1...1000)
+//
+//static func getEntropy() -> Int {
+//    entropy += 1
+//    return entropy
+//}
+
+
+
+// More Examples of Static Properties
+struct Amplifier {
+    static let maximumVolume = 11
+    var currentVolume: Int
+}
+
+
+
+
+@MainActor
+struct NewsStory {
+    static var breakingNewsCount = 0
+    static var regularNewsCount = 0
+    var headline: String
+    
+    init(headline: String, isBreaking: Bool) {
+        self.headline = headline
+        if isBreaking {
+            NewsStory.breakingNewsCount += 1
+        } else {
+            NewsStory.regularNewsCount += 1
+        }
+    }
+}
+
+
+
+
+
+@MainActor
+struct NewCat {
+    static var allCats = [NewCat]()
+    init() {
+        NewCat.allCats.append(self)
+    }
+    
+    static func chorus() {
+        for _ in allCats {
+            print("Meow!")
+        }
+    }
+}
+
+
+
+@MainActor
+struct Pokemon {
+    static var numberCaught = 0
+    var name: String
+    static func catchPokemon() {
+        print("Caught!")
+        Pokemon.numberCaught += 1
+    }
+}
+
+
+
+@MainActor
+struct Raffle {
+    static var ticketsUsed = 0
+    var name: String
+    var tickets: Int
+    init(name: String, tickets: Int) {
+        self.name = name
+        self.tickets = tickets
+        Raffle.ticketsUsed += tickets
+    }
+}
+
+
+@MainActor
+struct LegoBrick {
+    static var numberMade = 0
+    var shape: String
+    var color: String
+    init(shape: String, color: String) {
+        self.shape = shape
+        self.color = color
+        LegoBrick.numberMade += 1
+    }
+}

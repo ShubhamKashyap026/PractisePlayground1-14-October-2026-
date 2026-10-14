@@ -467,3 +467,594 @@ struct Toy {
         }
     }
 }
+
+
+
+// Property Observer // Run when value of computed changes // didSet // willSet
+
+
+//struct Game {
+//    private var _score: Int = 0
+//
+//    var score: Int {
+//        get {
+//            return _score
+//        }
+//        set {
+//            _score = newValue
+//            print("Score changed to \(_score)")
+//        }
+//    }
+//}
+
+struct Game {
+    var score: Int = 0 {
+        didSet { // Called just after the value is set or changes // provides oldValue
+//            print("Old Value is \(oldValue)") // Value just before the set or changed value
+            print("Score is now \(score)")
+        }
+    }
+}
+
+
+var game = Game()
+game.score += 10
+game.score -= 4
+game.score += 3
+
+struct App {
+    var contacts = [String]() { // Computed just like Stored properties can have a default value
+        willSet { // will be called just before setting the value // Is used to less frequently
+            print("Current Value is \(contacts)")
+            print("New Value is \(newValue)")
+        }
+        
+        didSet { // will be called just after setting the value
+            print("There are now is \(contacts.count) contacts")
+            print("Old Value was \(oldValue)")
+        }
+    }
+}
+
+var app = App()
+print("\n\n\n\n")
+app.contacts.append("Arian")
+app.contacts.append("Johnny")
+app.contacts.append("Marry")
+
+
+// Dont put too much work in property observers // That can cause slowdown
+
+// Some Examples of Property Obeservers
+struct NewBankAccount {
+    var name: String
+    var isMillionnaire = false
+    
+    var balance: Int {
+        didSet {
+            if balance > 1_000_000 {
+                isMillionnaire = true
+            } else {
+                isMillionnaire = false
+            }
+        }
+    }
+}
+
+let newBankAccount = NewBankAccount(name: "Monica", balance: 10_000_000)
+print(newBankAccount.balance)
+print(newBankAccount.isMillionnaire)
+
+
+
+
+
+struct NeoApp {
+    var name: String
+    var isOnSale: Bool {
+        didSet {
+            if isOnSale {
+                print("Go and download my app!")
+            } else {
+                print("Maybe download it later.")
+            }
+        }
+    }
+}
+
+
+
+struct Child {
+    var name: String
+    var age: Int {
+        didSet {
+            print("Happy birthday, \(name)!")
+        }
+    }
+}
+
+
+
+struct StepCounter {
+    var steps: Int {
+        didSet {
+            print("You've walked \(steps) steps - good job!")
+        }
+    }
+}
+
+
+
+
+struct FuzzyClock {
+    var hour: Int {
+        didSet {
+            if hour < 12 {
+                print("It's morning")
+            } else if hour < 18 {
+                print("It's the afternoon")
+            } else {
+                print("It's the evening.")
+            }
+        }
+    }
+}
+
+
+
+
+
+struct FishTank {
+    var capacity: Int
+    var fishCount: Int {
+        didSet {
+            if fishCount > capacity {
+                print("You have too many fish!")
+            }
+        }
+    }
+}
+
+
+
+
+struct NewDog {
+    var age: Int {
+        didSet {
+            let dogAge = age * 7
+            print("I'm now \(dogAge) in dog years.")
+        }
+    }
+}
+
+
+
+
+
+struct FootballMatch {
+    var homeTeamScore: Int {
+        didSet {
+            print("Yay - we scored!")
+        }
+    }
+    var awayTeamScore: Int {
+        didSet {
+            print("Boo - they scored!")
+        }
+    }
+}
+
+
+
+
+struct BigGame {
+    var score: Int {
+        didSet {
+            print("Your score is now \(score).")
+        }
+    }
+}
+
+
+
+
+
+struct House {
+    var numberOfOccupants: Int {
+        didSet {
+            print("\(numberOfOccupants) people live here now.")
+        }
+    }
+}
+
+
+
+
+
+enum Student {
+//    var age: Int   // Enum does not allow to have stored properties
+    
+    case gender, age, height
+    
+    var score: Int { // Enum does allow computed properties
+        return 5
+    }
+}
+
+let student1 = Student.gender
+print(student1.score)
+
+
+// Custom and Default Intialisers
+struct Gambler {
+    let name: String
+    let number: Int
+    
+    // Default Memberwise Intialiser provided by swift
+//    init(name: String, number: Int) { // Provided by Swift by default // Does not return anything // Only the Struct type
+//        self.name = name
+//        self.number = number
+//    }
+    
+    // Custom Initialiser
+    init(name: String) {
+        self.name = name
+        number = Int.random(in: 1...30)
+    }
+
+}
+
+//let gambler1 = Gambler(name: "Maya", number: 25) // Memberwise intialiser // Default provided by Swift // Must provided arguments in order
+
+let gambler1 = Gambler(name: "Maya")
+print(gambler1.number)
+
+
+// Examples of Custom Initialiser
+
+struct BigStudent {
+    var name: String
+    var bestFriend: String
+
+    init(name: String, bestFriend: String) { // Easier to read
+        print("Enrolling \(name) in class…")
+        self.name = name
+        self.bestFriend = bestFriend
+    }
+}
+
+
+struct BigStudent2 {
+    var name: String
+    var bestFriend: String
+    
+    
+    init(name studentName: String, bestFriend studentBestFriend: String) { // This is very clunky and bulky to read
+        print("Enrolling \(studentName) in class…")
+        name = studentName
+        bestFriend = studentBestFriend
+    }
+}
+
+
+
+
+struct Media {
+    var type: String
+    var users: Int
+    init(type: String, users: Int) {
+        self.type = type
+        self.users = users
+    }
+}
+
+let tv = Media(type: "Television", users: 10_000_000)
+
+
+
+
+struct Experiment {
+    var cost = 0
+    
+    init(cost: Int) {
+        self.cost = cost
+    }
+}
+
+let lhc = Experiment(cost: 13_250_000_000)
+
+
+
+
+
+
+struct SomeWine {
+    var grape: String
+    var region: String
+}
+let someMalbec = SomeWine(grape: "Malbec", region: "Cahors")
+
+
+
+
+struct Dictionary {
+    var words = Set<String>()
+}
+
+let dictionary = Dictionary()
+
+
+
+
+
+struct Sport {
+    var name: String
+    var isOlympicSport: Bool
+}
+let chessBoxing = Sport(name: "Chessboxing", isOlympicSport: false)
+
+
+
+
+
+
+struct Country {
+    var name: String
+    var usesImperialMeasurements: Bool
+    init(countryName: String) {
+        name = countryName
+        let imperialCountries = ["Liberia", "Myanmar", "USA"]
+        if imperialCountries.contains(name) {
+            usesImperialMeasurements = true
+        } else {
+            usesImperialMeasurements = false
+        }
+    }
+}
+
+
+
+
+
+struct SomeTree {
+    var type: String
+    var hasFruit: Bool
+    
+    init() {
+        type = "Cherry"
+        hasFruit = true
+    }
+}
+
+
+let cherryTree = SomeTree()
+
+
+
+
+
+struct Starship {
+    var name: String
+    var maxWarp: Double
+    init(starshipName: String, maxWarp: Double) {
+        name = starshipName
+        self.maxWarp = maxWarp
+    }
+}
+
+let voyager = Starship(starshipName: "Voyager", maxWarp: 5.0)
+
+
+
+
+
+struct Message {
+    var from: String
+    var to: String
+    var content: String
+    init() {
+        from = "Unknown"
+        to = "Unknown"
+        content = "Yo"
+    }
+}
+
+let message = Message()
+
+
+
+
+
+struct PowerTool {
+    var name: String
+    var cost: Int
+}
+
+let drill = PowerTool(name: "Hammer Drill", cost: 80)
+
+
+
+
+
+
+
+struct Cabinet {
+    var height: Double
+    var width: Double
+    var area: Double
+    init (itemHeight: Double, itemWidth: Double) {
+        height = itemHeight
+        width = itemWidth
+        area = height * width
+    }
+}
+let drawers = Cabinet(itemHeight: 1.4, itemWidth: 1.0)
+
+
+
+
+
+struct Conference {
+    var name: String
+    var location: String
+    init(name: String, location: String) {
+        self.name = name
+        self.location = location
+    }
+}
+
+let wwdc = Conference(name: "WWDC", location: "San Jose")
+
+
+
+
+struct SuperHero {
+    var nickname: String
+    var powers: [String]
+    init(nickname: String, superPowers: [String]) {
+        self.nickname = nickname
+        self.powers = superPowers
+    }
+}
+let batman = SuperHero(nickname: "The Caped Crusader", superPowers: ["He's really rich"])
+
+
+
+
+struct Kitchen {
+    var utensils: [String]
+    init(utensils: [String]) {
+        self.utensils = utensils
+    }
+}
+
+
+
+
+
+struct Parent {
+    var numberOfKids: Int
+    var tirednessPercent: Int
+    init (kids: Int, tirednessPercent: Int) {
+        self.numberOfKids = kids
+        self.tirednessPercent = tirednessPercent
+    }
+}
+let james = Parent(kids: 2, tirednessPercent: 10)
+
+
+
+
+
+struct Language {
+    var nameEnglish: String
+    var nameLocal: String
+    var speakerCount: Int
+    init(english: String, local: String, speakerCount: Int) {
+        self.nameEnglish = english
+        self.nameLocal = local
+        self.speakerCount = speakerCount
+    }
+}
+let french = Language(english: "French", local: "français", speakerCount: 220_000_000)
+
+
+
+
+
+struct Bus {
+    var routeNumber: Int
+    init(route: Int) {
+        self.routeNumber = route
+    }
+}
+
+
+
+
+struct Cat {
+    var name: String
+    var breed: String
+    var meowVolume: Int = 1
+    
+    init(name: String, breed: String) {
+        self.name = name
+        self.breed = breed
+    }
+}
+let toby = Cat(name: "Toby", breed: "Burmese")
+
+
+
+
+
+struct Character {
+    var name: String
+    var actor: String
+    var probablyGoingToDie: Bool
+    init(name: String, actor: String) {
+        self.name = name
+        self.actor = actor
+        if self.actor == "Sean Bean" {
+            probablyGoingToDie = true
+        } else {
+            probablyGoingToDie = false
+        }
+    }
+}
+
+
+
+
+struct Cottage {
+    var rooms: Int
+    var rating = 5
+    init(rooms: Int) {
+        self.rooms = rooms
+    }
+}
+let bailbrookHouse = Cottage(rooms: 4)
+
+
+
+
+
+struct Framework {
+    var name: String
+    var language: String
+    init(name: String, language: String) {
+        self.name = name
+        self.language = language
+    }
+}
+let vapor = Framework(name: "Vapor", language: "Swift")
+
+
+
+
+struct Computer {
+    var cpus: Int
+    var ramGB: Int
+    init(cpus: Int, ram: Int) {
+        self.cpus = cpus
+        self.ramGB = ram
+    }
+}
+
+
+
+
+struct District {
+    var number: Int
+    var supervisor: String
+    init(number: Int, supervisor: String) {
+        self.number = number
+        self.supervisor = supervisor
+    }
+}
+let district = District(number: 9, supervisor: "Unknown")
+
+
+
+
+// Static properties and Access control

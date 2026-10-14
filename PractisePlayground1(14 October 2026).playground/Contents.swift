@@ -1058,3 +1058,188 @@ let district = District(number: 9, supervisor: "Unknown")
 
 
 // Static properties and Access control
+
+// Access Control
+struct BankWindow {
+//    private var funds: Int = 0
+    private(set) var funds: Int = 0
+    
+    mutating func depoist(amount: Int) {
+        funds += amount
+    }
+    
+    mutating func withdraw(amount: Int) -> Bool {
+        if funds > amount {
+            funds -= amount
+            return true
+        } else {
+            return false
+        }
+    }
+}
+
+
+var account = BankWindow()
+account.depoist(amount: 1000)
+
+let success = account.withdraw(amount: 200)
+
+if success {
+    print("Withdrew money successfully")
+} else {
+    print("Failed to get the money")
+}
+
+//account.funds -= 5000 // private prohibit the changes of value //
+//print(account.funds) // You cannot even read it when private is labelled
+
+
+// private - Dont let anything outside the struct use this (both read and write not possible outside the struct)
+// fileprivate - Dont let anything outside the file (.swift file) use this (both read and write not possible outside the struct)
+// public - Anyone Anywhere can use this from any file or any data struct // Usally used for creating global constant like colors or error messages
+// private(set) - Any one can read it and not write it
+
+
+
+print(account.funds)
+
+
+//Open access and public access enable entities to be used within any source file from their defining module, and also in a source file from another module that imports the defining module. You typically use open or public access when specifying the public interface to a framework. The difference between open and public access is described below.
+//
+//Package access enables entities to be used within any source files from their defining package but not in any source file outside of that package. You typically use package access within an app or framework that’s structured into multiple modules.
+//
+//Internal access enables entities to be used within any source file from their defining module, but not in any source file outside of that module. You typically use internal access when defining an app’s or a framework’s internal structure.
+//
+//File-private access restricts the use of an entity to its own defining source file. Use file-private access to hide the implementation details of a specific piece of functionality when those details are used within an entire file.
+//
+//Private access restricts the use of an entity to the enclosing declaration, and to extensions of that declaration that are in the same file. Use private access to hide the implementation details of a specific piece of functionality when those details are used only within a single declaration.
+
+
+
+
+
+// More Examples of Access Control
+
+
+struct FacebookUser {
+    private var privatePosts: [String] = []
+    public var publicPosts: [String] = []
+}
+
+let facebookUser = FacebookUser()
+
+
+
+
+
+struct SpecialOrder {
+    private var id: Int
+    init(id: Int) {
+        self.id = id
+    }
+}
+
+let specialOrder = SpecialOrder(id: 1)
+
+
+
+
+
+struct CoolPerson {
+    private var socialSecurityNumber: String
+    init(ssn: String) {
+        socialSecurityNumber = ssn
+    }
+}
+let sarah = CoolPerson(ssn: "555-55-5555")
+
+
+
+
+
+struct Contributor {
+    private var name = "Anonymous"
+}
+
+let paul = Contributor()
+
+
+
+
+
+
+struct SecretAgent {
+    private var actualName: String
+    public var codeName: String
+    init(name: String, codeName: String) {
+        self.actualName = name
+        self.codeName = codeName
+    }
+}
+
+let bond = SecretAgent(name: "James Bond", codeName: "042")
+
+
+
+
+
+
+struct Doctor {
+    var name: String
+    var location: String
+    private var currentPatient = "No one" // Whenever you declare any private inside your struct, you have to create custom initialiser
+    
+    init(name: String, location: String, currentPatient: String) {
+        self.name = name
+        self.location = location
+        self.currentPatient = currentPatient
+    }
+}
+let drJones = Doctor(name: "Esther Jones", location: "Bristol", currentPatient: "Jerry")
+
+
+
+
+
+
+struct Office {
+    private var passCode: String
+    var address: String
+    var employees: [String]
+    init(address: String, employees: [String]) {
+        self.address = address
+        self.employees = employees
+        self.passCode = "SEKRIT"
+    }
+}
+let monmouthStreet = Office(address: "30 Monmouth St", employees: ["Paul Hudson"])
+
+
+
+
+struct School {
+    var staffNames: [String]
+    private var studentNames: [String]
+    init(staff: [String]) {
+        self.staffNames = staff
+        self.studentNames = [String]()
+    }
+}
+let royalHigh = School(staff: ["Mrs Hughes"])
+
+
+
+
+
+
+
+struct Customer {
+    var name: String
+    private var creditCardNumber: Int
+    init(name: String, creditCard: Int) {
+        self.name = name
+        self.creditCardNumber = creditCard
+    }
+}
+let lottie = Customer(name: "Lottie Knights", creditCard: 1234567890)
+
